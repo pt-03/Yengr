@@ -1,0 +1,731 @@
+<html>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+<body>
+	    <div id="textArea">V.0.0.1 [Yengr]</div>
+
+    <div id="version">0</div>
+    <div id="score2">0</div>
+
+    <div class="grid"></div>
+	<div id="motherMove" onclick="MainPiece()">MainPiecePlace</div>
+
+	<div id="voidIt" onclick="voidChoice()">Void Move</div>
+		
+	<div id="pass" onclick="done()">EndGame</div>
+	<div id="turn">1</div>
+	
+	<div id="moveArea"></div>
+<script>
+	document.addEventListener('keyup', (e) => {
+  if (e.code === "ArrowUp")      
+	  location.reload();
+});
+				var f=0;
+var MMP_Counter_1=false;
+var MMP_Counter_2=false;
+
+	var vC=false;
+	var score=0;
+		var moveArea = document.getElementById("moveArea");
+
+	var textArea = document.getElementById("textArea");
+
+		var score2=0;
+	var myturn=document.getElementById("turn");
+
+	var sShow=document.getElementById("version");
+		var sShow2=document.getElementById("score2");
+
+	  let width = 9
+  let bombAmount = 5
+  let flags = 0
+  var squares = []
+  let isGameOver = false
+var turn=0;
+	 var bombsArray = Array(bombAmount).fill('bomb')
+	 
+
+    var emptyArray = Array(width*width - bombAmount).fill('valid')
+	
+    var gameArray = emptyArray.concat(bombsArray)
+
+    const shuffledArray = gameArray.sort(() => Math.random() -0.5)
+	
+	var myArray=[]
+	
+	var TURNCOUNT=0;
+	var mainPiece=false;
+
+	
+	//WARNING NO VAR AFTER THIS
+	//
+
+	document.addEventListener('DOMContentLoaded', () => {
+
+	  const grid = document.querySelector('.grid')
+  //create Board
+	  
+
+  function createBoard() {
+
+    //get shuffled game array with random bombs
+   
+    for(let i = 0; i < width*width; i++) {
+		
+      const square = document.createElement('div')
+      square.setAttribute('id', i)
+      square.classList.add(shuffledArray[i])
+		      square.classList.add(shuffledArray[i])
+		let half=Math.floor(Math.random()*2);
+	
+		
+		//Auto-Fill
+		 /*if(square.classList=="bomb"){
+			myArray+="bomb"
+			
+		}
+		else if(half==1){
+			square.classList="click";
+		}
+		else{
+			square.classList="click2";
+		}
+			*/
+		
+			
+      grid.appendChild(square)
+
+		 square.addEventListener('click', function(e) {
+
+			 click(square)
+ 			
+      })
+	}
+  }
+
+createBoard();
+
+function click(square){
+for(let i = 0; i <81; i++) {
+		let s = document.getElementById(i);
+		if(s.classList=="clickMain1"){
+			var MMP_Counter_1=true;
+		}
+	else if(s.classList=="clickMain2"){
+			var MMP_Counter_2=true;
+		}
+		
+}
+if(TURNCOUNT==15 &&(MMP_Counter_1!=true ||MMP_Counter_2!=true))
+	
+{
+	
+if(MMP_Counter_1!=true){
+	alert("PLAYER_ONE_LOSE")
+}
+else{
+	
+	alert("PLAYER_TWO_LOSE")
+}
+
+}
+else{
+
+if(mainPiece==true && square.classList=="valid"){
+	if(turn==0){
+		mainPiece=false;
+		square.classList="clickMain1";
+		let d = document.createElement('a');
+			d.innerHTML="M";
+		      d.setAttribute('style', "color:white;")
+
+	square.appendChild(d);
+
+		
+	if(turn!=0){
+		turn=0;
+			TURNCOUNT++;
+
+	}
+	else{
+	turn=1;	
+			TURNCOUNT++;
+
+	}
+	}
+	else{
+		
+				mainPiece=false;
+		square.classList="clickMain2";
+		let d = document.createElement('a');
+			d.innerHTML="M";
+		      d.setAttribute('style', "color:white;")
+
+	square.appendChild(d);
+
+if(turn!=0){
+		turn=0;
+		TURNCOUNT++;
+
+	}
+	else{
+	turn=1;	
+			TURNCOUNT++;
+
+	}
+	}
+}
+
+
+let q=Math.floor(Math.random()*3);
+if(q==1){
+	let n=Math.floor(Math.random()*80);
+			/*for(let i=0; i<81; i++){
+				
+				var s = document.getElementById(i);
+				
+	if(s.classList=="valid"){
+		s.classList="bomb";
+		break;
+		
+	}
+	else{
+		
+		
+	}
+			}*/
+}
+if(turn==2){
+	alert("ERROR:BOARD_IS_FINAL");
+	      
+}
+else{
+	
+if(vC==true && square.classList!="click"){
+
+			if(square.classList=="click2"){}else{
+					square.classList="bomb"		}
+		
+	
+
+	
+	if(turn==0){
+		turn=1;
+			TURNCOUNT++;
+
+		vC=false;
+		f++;
+					myturn.innerHTML="2";
+		var textM = document.createElement('a');
+			textM.innerHTML=textM.innerHTML+f+"/1/"+"V"+square.id+" ";
+	moveArea.appendChild(textM);
+
+
+	}
+else if(turn==1){
+		turn=0;
+		TURNCOUNT++;
+
+	f++;
+			vC=false;
+					myturn.innerHTML="1";
+	var textM = document.createElement('a');
+			textM.innerHTML=textM.innerHTML+f+"/1/"+"V"+square.id+" ";
+	moveArea.appendChild(textM);
+
+
+}
+}
+
+if(square.classList.contains("bomb")){
+}
+else{
+		//alert(square.id);
+	if(turn==0){
+		if(square.classList=="valid"){
+				square.classList="";
+		square.classList.add("click");
+		turn=1;
+						f++;
+	TURNCOUNT++;
+
+			myturn.innerHTML="2";
+			var textM = document.createElement('a');
+			textM.innerHTML=textM.innerHTML+f+"/1/"+square.id+" ";
+	moveArea.appendChild(textM);
+
+		}
+		else{
+			
+		
+		}
+	}
+	else if(turn==1){
+
+		if(square.classList=="valid"){
+								square.classList="";
+
+			square.classList.add("click2");
+		turn=0;
+			f++;
+				TURNCOUNT++;
+
+						myturn.innerHTML="1";
+			var textM = document.createElement('a');
+textM.innerHTML=textM.innerHTML+f+"/2/"+square.id+" ";	moveArea.appendChild(textM);
+
+
+		}
+		else{
+			
+		
+		}
+		
+	}}
+}
+}
+	
+	for(let i = 0; i <81; i++) {
+		let s = document.getElementById(i);
+		
+		var  x1= document.getElementById(i-1);
+		var x2= document.getElementById(i-(-1));
+		var x3= document.getElementById(i-(-9));
+		var x4= document.getElementById(i-9);
+		
+		var a=0;
+		var b=0;
+		var c=0;
+		var d=0;
+
+		
+	if(s.classList=="clickMain1"){
+if(x1.classList=="click2"){
+	a=1;
+	
+}
+if(x2.classList=="click2"){
+	b=1;
+	
+}
+if(x3.classList=="click2"){
+	c=1;
+	
+}
+if(x4.classList=="click2"){
+	d=1;
+	
+}
+if(a+b+c+d>2){
+	
+alert("GAMEOVER Player 2 WINS!");	
+}}
+		
+		
+	if(s.classList=="clickMain2"){
+			
+		
+if(x1.classList=="click"){
+	a=1;
+	
+	
+}
+if(x2.classList=="click"){
+	b=1;
+	
+}
+if(x3.classList=="click"){
+	c=1;
+	
+}
+if(x4.classList=="click"){
+	d=1;
+	
+}
+if(a+b+c+d>2){
+	
+alert("GAMEOVER Player 1 WINS!");	
+}
+			 
+		 
+	}
+	}
+	
+	
+
+	
+
+	}
+
+	});
+	function voidChoice(){
+	
+	 vC=true;
+	return vC;
+}
+	function MainPiece(){
+	 mainPiece=true;
+			return mainPiece;
+
+}
+function done(){
+	turn=2;
+	for(let i = 0; i <81; i++) {
+		      /*var s = document.getElementById(i);
+				if(s.classList=="bomb"){
+					s.classList="voidBomb";
+				}*/
+		var s = document.getElementById(i);
+			var d = document.getElementById(i-1);
+
+				var t = document.getElementById(i+1);
+						
+		var r = document.getElementById(i+2);
+		var h = document.getElementById(i+3);
+			
+		var r1 = document.getElementById(i-1);
+		var r2 = document.getElementById(i-2);
+
+		var c = document.getElementById(i+9);
+		var w = document.getElementById(i-9);
+
+		var y = document.getElementById(i-18);
+
+		if(s.classList=="clickMain1" && t.classList=="click"&& r.classList=="click"){
+			score+=4;
+			s.classList="clickC";
+			t.classList="clickC"
+						r.classList="clickC"
+
+			sShow.innerHTML=score;
+						s.innerText="5";
+			
+		}
+		if(s.classList=="clickMain1" && w.classList=="click"&& y.classList=="click"){
+			score+=4;
+			s.classList="clickC";
+			c.classList="clickC"
+						y.classList="clickC"
+w
+			sShow.innerHTML=score;
+						s.innerText="5";
+			
+		}
+	
+	if(s.classList=="clickMain1" && r1.classList=="click"&& r2.classList=="click"){
+		
+			score+=4;
+			s.classList="clickC";
+			r1.classList="clickC"
+					r2.classList="clickC"
+
+			sShow.innerHTML=score;
+						s.innerText="5";
+			
+	}
+	if(s.classList=="clickMain1" && t.classList=="click"&& r.classList!="click"){
+			score+=3;
+			s.classList="clickC";
+			t.classList="clickC"
+			sShow.innerHTML=score;
+						s.innerText="4";
+			
+		}
+			if(s.classList=="clickMain1" && t.classList=="click"&& d.classList=="click"){
+		
+			score+=4;
+			s.classList="clickC";
+			t.classList="clickC"
+					d.classList="clickC"
+
+			sShow.innerHTML=score;
+						s.innerText="5";
+			
+		}
+		
+		
+		
+		if(s.classList=="clickMain1" && w.classList=="click"){
+
+			score+=4;
+			s.classList="clickC";
+			w.classList="clickC"
+
+			sShow.innerHTML=score;
+						s.innerText="3";}
+			
+		
+	
+		if(s.classList=="click" && t.classList=="click"&& r.classList!="click" ){
+					score+=1;
+			s.classList="clickC";
+			t.classList="clickC"
+			sShow.innerHTML=score;
+						s.innerText="2";
+
+	}
+	 if(s.classList=="click" && t.classList=="click" && r.classList=="click"){
+					score+=2;
+			s.classList="clickC";
+			t.classList="clickC";
+			r.classList="clickC"
+			s.innerText="3";
+			sShow.innerHTML=score;
+	}	
+		
+		
+		
+	 if(s.classList=="click2" && t.classList=="click2" && r.classList!="click2"){
+					score2+=1;
+			s.classList="clickC2";
+			t.classList="clickC2"
+			s.innerText="2";
+
+			sShow2.innerHTML=score2;
+	}
+		if(s.classList=="click2" && t.classList=="click2" && r.classList=="click2"){
+					score2+=2;
+			s.classList="clickC2";
+			t.classList="clickC2";
+			r.classList="clickC2"
+			s.innerText="3";
+			sShow2.innerHTML=score;
+	}	
+		
+		
+		
+		 if(s.classList=="click" && c.classList=="click" ){
+					score+=1;
+			s.classList="clickC";
+			c.classList="clickC"
+			sShow.innerHTML=score;
+			 			s.innerText="2";
+
+	}
+	else if(s.classList=="click2" && c.classList=="click2" ){
+					score2+=1;
+			s.classList="clickC2";
+			c.classList="clickC2"
+			sShow2.innerHTML=score2;
+					s.innerText="2";
+
+	}
+	
+	
+	}
+}
+
+
+</script>
+<style>
+	#turn{
+		position:absolute;
+		left:400px;
+		top:0px;
+	}
+	#voidit{
+	  height: 10px;
+  width: 100px;
+		font-size:20px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #dcd6bc;
+  margin-left: 50px;
+  margin-top: 20px;
+  border: 10px solid #dcd6bc;
+  margin-bottom: 10px;;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #dcd6bc;
+  margin-left: 50px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+	padding:1px;	
+		cursor:pointer
+	border-radius:50px;
+			cursor:pointer;
+
+	}
+	#motherMove{
+	font-size:20px;
+
+  height: 10px;
+  width: 200px;
+  display: flex;
+			font-size:20px;
+
+  flex-wrap: wrap;
+  background-color: #dcd6bc;
+  margin-left: 50px;
+  margin-top: 20px;
+  border: 10px solid #dcd6bc;
+  margin-bottom: 10px;;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #dcd6bc;
+  margin-left: 50px;
+  margin-top: 0px;
+  border: 10px solid #dcd6bc;
+  margin-bottom: 10px;
+	padding:1px;
+		cursor:pointer
+	}
+#version{
+				font-size:20px;
+
+  height: 10px;
+  width: 200px;
+  display: flex;
+			font-size:20px;
+
+  flex-wrap: wrap;
+  background-color: #dcd6bc;
+  margin-left: 50px;
+  margin-top: 20px;
+  border: 10px solid #dcd6bc;
+  margin-bottom: 10px;;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #dcd6bc;
+  margin-left: 50px;
+  margin-top: 0px;
+  border: 10px solid #dcd6bc;
+  margin-bottom: 10px;
+	padding:1px;
+	}
+#moveArea{
+	font-size:18px;
+	text-overflow: wrap;
+    word-wrap: break-word;
+
+	position:absolute;
+	top:200px;
+	left:500px;
+	width:200px;
+	height:190px;
+	border:solid 1px black;
+	
+	}
+#score2{
+				font-size:20px;
+
+  height: 10px;
+  width: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #dcd6bc;
+  margin-left: 50px;
+  margin-top: 20px;
+  border: 10px solid #dcd6bc;
+  margin-bottom: 10px;;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #dcd6bc;
+  margin-left: 50px;
+  margin-top: 0px;
+  border: 10px solid #dcd6bc;
+  margin-bottom: 10px;
+	padding:1px;
+	}
+.grid {
+  height: 400px;
+  width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #dcd6bc;
+  margin-left: 50px;
+  margin-top: 20px;
+  border: 10px solid #dcd6bc;
+  margin-bottom: 10px;
+		cursor:pointer;
+
+}
+#textArea{
+	color:black;
+	}
+.grid div{
+	height: 40px;
+  width: 40px;
+	border-radius:50%;
+	}
+.voidBomb{
+	background-color: black;
+	border:2px solid white;
+	
+	}
+.bomb {
+  background-color: dodgerblue;
+	border:2px solid lightblue;
+	}
+.valid{
+
+	  border:2px solid black;
+	opacity:.1;
+	}
+.valid:hover{
+		opacity:.5;
+
+	  border:2px solid black;
+
+	}
+.clickC{
+
+	  background-color: white;
+		opacity:1;
+	  border:2px solid black;
+    box-shadow: 0 0 10px #fff;
+
+	}
+.clickMain1{
+
+	    background-color: #002456;
+		opacity:1;
+	  border:2px solid red;
+	    box-shadow: 0 0 10px red;
+
+	
+	}
+.clickMain2{
+
+	  background-color: yellow;
+		opacity:1;
+	  border:2px solid red;
+	    box-shadow: 0 0 10px red;
+
+	}
+.clickC2{
+	  background-color: pink;
+		opacity:1;
+	  border:2px solid purple;
+    box-shadow: 0 0 10px pink;
+
+	}
+.click{
+	  background-color: #002456;
+		opacity:1;
+	  border:2px solid #002456;
+	}
+.click2{
+		  background-color: #FaFF00;
+		opacity:1;
+	  border:2px solid #FFFF00;
+
+	}
+
+.void{
+	  background-color: black;
+		opacity:1;
+	  border:2px solid white;
+	
+	}
+#pass{
+	width:220px;
+	height:50px;
+	font-size:50px;
+	  background-color: #dcd6bc;
+  margin-left: 50px;
+  margin-top: 0px;
+	text-align:center;
+				cursor:pointer;
+
+	}	
